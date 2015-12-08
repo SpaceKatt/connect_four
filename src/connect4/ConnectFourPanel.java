@@ -7,13 +7,13 @@ package connect4;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 /**
@@ -22,12 +22,12 @@ import javax.swing.KeyStroke;
  */
 class ConnectFourPanel extends JPanel{
     
-    private Connect4 game;
+    private final Connect4 game;
     private int columnIndex;
-    private KeyListener listener;
-    private JPanel top;
-    private JPanel bottom;
-    private JPanel center;
+    private final KeyListener listener;
+    private final JPanel top;
+    private final JPanel bottom;
+    private final JPanel center;
     
     ConnectFourPanel() {
         setSize(1000, 800);
@@ -48,19 +48,19 @@ class ConnectFourPanel extends JPanel{
 
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel();
-        topPanel.setSize(1000, 200);
+        topPanel.setPreferredSize(new Dimension(1000, 100));
         return topPanel;
     }
 
     private JPanel createCenterPanel() {
         JPanel centerPanel = new JPanel();
-        centerPanel.setSize(1000, 600);
+        centerPanel.setPreferredSize(new Dimension(1000, 700));
         return centerPanel;
     }
 
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setSize(1000, 200);
+        bottomPanel.setPreferredSize(new Dimension(1000, 40));
         
         JButton buttonReset = createResetButton();
         JButton buttonExit = createExitButton();
@@ -103,20 +103,44 @@ class ConnectFourPanel extends JPanel{
             String key = KeyStroke.getKeyStrokeForEvent(event).toString();
             key = key.replace("pressed ", "");
             if (key.equals("LEFT")) {
-                columnIndex++;
-                center.setBackground(Color.RED);
-            } if (key.equals("RIGHT")) {
                 columnIndex--;
+                center.setBackground(Color.RED);
+                while (game.chipsInX[columnIndex] > 5) {
+                    columnIndex--;
+                }
+            } else if (key.equals("RIGHT")) {
+                columnIndex++;
                 center.setBackground(Color.BLUE);
+                while (game.chipsInX[columnIndex] > 5) {
+                    columnIndex++;
+                }
+            } else if (key.equals("SPACE")) {
+                if (game.isRedTurn == true) {
+                    game.redTurn(columnIndex);
+                } else {
+                    game.blackTurn(columnIndex);
+                }
+            }
+            if (columnIndex < 0) {
+                columnIndex = 6;
             }
             columnIndex = columnIndex % game.board[0].length;
+            System.out.println(columnIndex);
+            if (!(game.gameWinRed || game.gameWinBlack || game.tieGame)) {
+                while (game.chipsInX[columnIndex] > 5) {
+                    columnIndex++;
+                    columnIndex = columnIndex % game.chipsInX.length;
+                }
+            } else {
+                gameOver();    
+            }
         }
         @Override
-        public void keyTyped(KeyEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        public void keyTyped(KeyEvent e) {}
         @Override
-        public void keyReleased(KeyEvent e) {
+        public void keyReleased(KeyEvent e) {}
+
+        private void gameOver() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }

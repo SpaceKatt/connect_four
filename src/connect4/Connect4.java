@@ -6,6 +6,7 @@
 package connect4;
 
 import java.util.ArrayList;
+//import java.util.Scanner;
 
 /**
  *
@@ -19,12 +20,64 @@ public class Connect4 {
      */
     
     public int[][] board = new int[6][7];
+    public int[] chipsInX = new int[7];
+    public boolean gameWinRed;
+    public boolean gameWinBlack;
+    public boolean tieGame;
+    public boolean isRedTurn;
+    //private Scanner in;
     
     Connect4() {
         resetBoard();
+        gameWinRed = false;
+        gameWinBlack = false;
+        tieGame = false;
+        startGame();
     }
     
+    public void startGame() {
+        //in = new Scanner(System.in);
+        isRedTurn = true;
+//        while (!gameWinRed && !gameWinBlack & !tieGame) {
+////            if (isRedTurn) {
+////                redTurn();
+////            } else {
+////                blackTurn();
+////            }
+//            if(gameWinRed) {
+//                System.out.println("Red player wins!");
+//            }
+//            else if(gameWinBlack) {
+//                System.out.println("Black player wins!");
+//            }
+//            else if(tieGame) {
+//                System.out.println("Tie game!");
+//            }
+//        }
+    }
+    
+    public void redTurn(int xRed) {
+//        System.out.println("Black player's turn. Enter a coloumn: ");
+//        int xRed = in.nextInt();
+        int[] chipsInX1 = getChipsInX();
+        int[] moveBlack = {(5-chipsInX1[xRed]), xRed};
+        placeChip(1, moveBlack);
+        isRedTurn = false;
+    }
+    
+    public void blackTurn(int xBlack) {
+//        System.out.println("Black player's turn. Enter a coloumn: ");
+//        int xBlack = in.nextInt();
+        int[] chipsInX2 = getChipsInX();
+        int[] moveBlack = {(5-chipsInX2[xBlack]), xBlack};
+        placeChip(2, moveBlack);
+        isRedTurn = true;
+    }
+       
     public void resetBoard() {
+        for (int i = 0; i < this.chipsInX.length; i++) {
+            chipsInX[i] = 0;
+        } 
         for (int i = 0; i < this.board.length; i++) {
             for (int j = 0; j < this.board[0].length; j++) {
                 this.board[i][j] = 0;
@@ -32,10 +85,24 @@ public class Connect4 {
         }
     }
 
+    public int[] getChipsInX() {
+        return this.chipsInX;
+    }
+    
     public void placeChip(int color, int[] coord) {
         this.board[coord[0]][coord[1]] = color;
+        chipsInX[coord[1]] += 1; 
         boolean win = checkWin(coord);
         System.out.println(win);
+        if (win && color == 1) {
+            gameWinRed = true;
+        }
+        else if (win && color == 2) {
+            gameWinBlack = true;  
+        }
+        else if (checkTie()){
+            tieGame = true;
+        }
         
     }
 
@@ -45,11 +112,11 @@ public class Connect4 {
         int[] backwardDiagonal = grabBackDiagonal(coord);
         
         boolean one = validSequence(this.board[coord[0]]);
-//        System.out.print("two");
+        System.out.print("two");
         boolean two = validSequence(column);
-//        System.out.print("three");
+        System.out.print("three");
         boolean three = validSequence(forwardDiagonal);
-//        System.out.print("four\n");
+        System.out.print("four\n");
         boolean four = validSequence(backwardDiagonal);
         
         for (int i = 0; i < this.board.length; i++) {
@@ -73,6 +140,7 @@ public class Connect4 {
     private boolean validSequence(int[] seq) {
         int color = seq[0];
         int counter = 1;
+        boolean result = true;
         for (int i = 1; i < seq.length; i++) {
             if (color == 0 ) {
                 counter = 1;
@@ -83,7 +151,7 @@ public class Connect4 {
                 counter = 1;
             }
             if (counter == 4) {
-                return true;
+                return result;
             }
         }
         return false;
@@ -119,15 +187,15 @@ public class Connect4 {
         int[] coord = {coords[0], coords[1]};
         coord[1] += coord[0];
         coord[0] -= coord[0];
-        while (coord[1] > this.board[0].length) {
-            coord[0]--;
-            coord[1]++;
+        while (coord[1] >= this.board[0].length) {
+            coord[0]++;
+            coord[1]--;
         }
 //        System.out.print(coord[0] + " yup " + coord[1]);
         ArrayList<Integer> diagons = new ArrayList<>();
         int index = 0;
-        while(coord[0] < this.board.length 
-              && coord[1] > (-1)) {
+        while((coord[0] < this.board.length)
+              && (this.board[0].length > coord[1] && coord[1] > (-1))) {
             diagons.add(index, this.board[coord[0]][coord[1]]);
             coord[0]++;
             coord[1]--;
@@ -140,5 +208,13 @@ public class Connect4 {
         }
         return diagonalStuff;
     }
+    private boolean checkTie() {
+        boolean tie = true;
+        for(int i = 0; i < chipsInX.length; i ++) {
+            if (chipsInX[i] != 6) {
+                tie = false;   
+            }
+        }
+        return tie;
+    }
 }    
-

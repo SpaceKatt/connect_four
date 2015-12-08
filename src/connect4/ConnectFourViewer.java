@@ -19,6 +19,7 @@ public class ConnectFourViewer {
         frame.setSize(1000, 700);
         ConnectFourPanel cp = new ConnectFourPanel();
         frame.add(cp);
+        frame.pack();
         frame.setVisible(true);
     }
 }
