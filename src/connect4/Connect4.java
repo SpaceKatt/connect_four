@@ -94,10 +94,10 @@ public class Connect4 {
         chipsInX[coord[1]] += 1; 
         boolean win = checkWin(coord);
         System.out.println(win);
-        if (win && color == 1) {
+        if (win && (color == 1)) {
             gameWinRed = true;
         }
-        else if (win && color == 2) {
+        else if (win && (color == 2)) {
             gameWinBlack = true;  
         }
         else if (checkTie()){
@@ -147,6 +147,7 @@ public class Connect4 {
         boolean result = true;
         for (int i = 1; i < seq.length; i++) {
             if (seq[i] == 0 ) {
+                counter = 1;
             } else if (seq[i] == color) {
                 counter++;
             } else {

@@ -18,6 +18,7 @@ public class ConnectFourViewer {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 1000);
         ConnectFourPanel cp = new ConnectFourPanel();
+        frame.setResizable(false);
         frame.add(cp);
         frame.pack();
         frame.setVisible(true);

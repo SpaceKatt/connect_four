@@ -27,19 +27,19 @@ import javax.swing.JPanel;
  *
  * @author Thomas
  */
-public class ChipComponent extends JPanel {
+public class ChipComponentCursor extends JPanel {
     int color;
     int x;
     int y;
     int size;
     private final Ellipse2D.Double circle;
     
-    public ChipComponent(int color, int x, int y, int size) {
+    public ChipComponentCursor(int color, int x, int y, int size) {
         this.color = color;
         this.x = x;
         this.y = y;
         this.size = size;
-        this.circle = new Ellipse2D.Double(x+10, y+10, size-10, size-10);
+        this.circle = new Ellipse2D.Double(x, y, size, size);
     }
     
     @Override
@@ -54,7 +54,6 @@ public class ChipComponent extends JPanel {
         } else if (color == 0) {
             g2.setColor(Color.GRAY);
         }
-        setBackground(Color.YELLOW);
         g2.fill(circle);
         g2.draw(circle);
         
