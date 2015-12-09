@@ -1,39 +1,28 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Thomas Kercehval, Josh Murphy
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package connect4;
 
-import java.util.Scanner;
-
 /**
  *
- * @author Jash
+ * @author Thomas Kercheval, Josh Murphy
  */
 public class Execution {
     public static void main(String[] args) {
         ConnectFourViewer gameRunner = new ConnectFourViewer();
-        gameRunner.main(new String[]{"GO"});
-//        Connect4 game = new Connect4();
-//        int[] chipsInX = new int[7];
-//        
-//
-//        int color = 1;
-//        
-//        //////////////// TESTIN //////////////////
-////        int[][] corz = {{0,0},{1,1},{2,2},{3,3}};
-////        int[][] corz = {{0,3},{1,2},{2,1},{3,0}};
-//        int[][] corz = {{2,1},{3,1},{4,1},{5,1}};
-//        for (int[] e : corz) {
-//            game.placeChip(color, e);
-//            try {
-//                Thread.sleep(100);                 //1000 milliseconds is one second.
-//            } catch(InterruptedException ex) {
-//                Thread.currentThread().interrupt();
-//            }
-//        }
-//        
-//        
+        gameRunner.runGame();
     }
 }

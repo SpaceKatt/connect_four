@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Thomas
+ * Copyright (C) 2015 Thomas Kercehval, Josh Murphy
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ public class ChipComponentCursor extends JPanel {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.circle = new Ellipse2D.Double(x, y, size, size);
+        this.circle = new Ellipse2D.Double(x+10, y+5, size-10, size-10);
     }
     
     @Override

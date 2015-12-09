@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Thomas Kercehval, Josh Murphy
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package connect4;
 
@@ -36,29 +47,10 @@ public class Connect4 {
     }
     
     public void startGame() {
-        //in = new Scanner(System.in);
         isRedTurn = true;
-//        while (!gameWinRed && !gameWinBlack & !tieGame) {
-////            if (isRedTurn) {
-////                redTurn();
-////            } else {
-////                blackTurn();
-////            }
-//            if(gameWinRed) {
-//                System.out.println("Red player wins!");
-//            }
-//            else if(gameWinBlack) {
-//                System.out.println("Black player wins!");
-//            }
-//            else if(tieGame) {
-//                System.out.println("Tie game!");
-//            }
-//        }
     }
     
     public void redTurn(int xRed) {
-//        System.out.println("Black player's turn. Enter a coloumn: ");
-//        int xRed = in.nextInt();
         int[] chipsInX1 = getChipsInX();
         int[] moveBlack = {(5-chipsInX1[xRed]), xRed};
         placeChip(1, moveBlack);
@@ -66,8 +58,6 @@ public class Connect4 {
     }
     
     public void blackTurn(int xBlack) {
-//        System.out.println("Black player's turn. Enter a coloumn: ");
-//        int xBlack = in.nextInt();
         int[] chipsInX2 = getChipsInX();
         int[] moveBlack = {(5-chipsInX2[xBlack]), xBlack};
         placeChip(2, moveBlack);
@@ -112,11 +102,8 @@ public class Connect4 {
         int[] backwardDiagonal = grabBackDiagonal(coord);
         
         boolean one = validSequence(this.board[coord[0]]);
-        System.out.print("two");
         boolean two = validSequence(column);
-        System.out.print("three");
         boolean three = validSequence(forwardDiagonal);
-        System.out.print("four\n");
         boolean four = validSequence(backwardDiagonal);
         
         for (int i = 0; i < this.board.length; i++) {
@@ -138,19 +125,16 @@ public class Connect4 {
     }
 
     private boolean validSequence(int[] seq) {
-        System.out.print("DO: ");
-        for (int e : seq) {
-            System.out.print(e);
-        }
         int color = seq[0];
         int counter = 1;
         boolean result = true;
         for (int i = 1; i < seq.length; i++) {
             if (seq[i] == 0 ) {
                 counter = 1;
+                color = 0;
             } else if (seq[i] == color) {
                 counter++;
-            } else {
+            } else if (seq[i] != color) {
                 color = seq[i];
                 counter = 1;
             }
@@ -195,7 +179,6 @@ public class Connect4 {
             coord[0]++;
             coord[1]--;
         }
-//        System.out.print(coord[0] + " yup " + coord[1]);
         ArrayList<Integer> diagons = new ArrayList<>();
         int index = 0;
         while((coord[0] < this.board.length)

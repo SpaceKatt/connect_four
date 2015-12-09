@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Thomas Kercehval, Josh Murphy
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package connect4;
 
@@ -35,9 +46,8 @@ class ConnectFourPanel extends JPanel{
     private final JPanel tiePane;
     private boolean gameOver;
     private ChipComponentCursor chip;
-    int currentTurn;
-    private GridComponent grid;
-    private ChipComponent[][] chipBoard;
+    private int currentTurn;
+    private final ChipComponent[][] chipBoard;
     
     ConnectFourPanel() {
         setSize(1000, 700);
@@ -60,7 +70,6 @@ class ConnectFourPanel extends JPanel{
         redWinPane = createWinPane("RED PLAYER WINS!");
         blackWinPane = createWinPane("BLACK PLAYER WINS!");
         tiePane = createWinPane("TIE GAME, YOU SUCK!");
-        
         gameOver = false;
 
         add(top, BorderLayout.NORTH);
@@ -68,7 +77,6 @@ class ConnectFourPanel extends JPanel{
         add(bottom, BorderLayout.SOUTH);
         this.addKeyListener(listener);
         this.setFocusable(true);
-        
         
         repaint();
     }
@@ -88,10 +96,7 @@ class ConnectFourPanel extends JPanel{
         JPanel centerPanel = new JPanel();
         centerPanel.setPreferredSize(new Dimension(700, 700));
         centerPanel.setBackground(Color.YELLOW);
-        //this.grid = new GridComponent(0, 0, 0, 700);
         centerPanel.setLayout(new GridLayout(6,7));
-        //this.grid.setBounds(0, 0, grid.size, grid.size - 100);
-        //centerPanel.add(this.grid);
         for (int i = 0; i < game.board.length; i++) {
             for (int j = 0; j < game.board[0].length; j++) {
                 centerPanel.add(chipBoard[i][j]);
@@ -182,7 +187,6 @@ class ConnectFourPanel extends JPanel{
                 if (columnIndex < 0) {
                     columnIndex = 6;
                 }
-                //center.setBackground(Color.RED);
                 while (game.chipsInX[columnIndex] > 5) {
                     columnIndex--;
                     if (columnIndex < 0) {
@@ -192,7 +196,6 @@ class ConnectFourPanel extends JPanel{
             } else if (key.equals("RIGHT")) {
                 columnIndex++;
                 columnIndex = columnIndex % game.board[0].length;
-                //center.setBackground(Color.BLUE);
                 while (game.chipsInX[columnIndex] > 5) {
                     columnIndex++;
                     columnIndex = columnIndex % (game.board[0].length - 1);
