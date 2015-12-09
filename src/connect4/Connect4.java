@@ -125,8 +125,8 @@ public class Connect4 {
             }
             System.out.println();
         }
-        
-        return (one || two || three || four);
+        boolean result = (one || two || three || four);
+        return result;
     }
     
     private static int[] grabColumn(int[][] x, int i) {
@@ -138,12 +138,15 @@ public class Connect4 {
     }
 
     private boolean validSequence(int[] seq) {
+        System.out.print("DO: ");
+        for (int e : seq) {
+            System.out.print(e);
+        }
         int color = seq[0];
         int counter = 1;
         boolean result = true;
         for (int i = 1; i < seq.length; i++) {
-            if (color == 0 ) {
-                counter = 1;
+            if (seq[i] == 0 ) {
             } else if (seq[i] == color) {
                 counter++;
             } else {

@@ -28,9 +28,13 @@ class ConnectFourPanel extends JPanel{
     private final JPanel top;
     private final JPanel bottom;
     private final JPanel center;
+    private boolean gameOver;
+    private ChipComponent chip;
+    int currentTurn;
+    private GridComponent grid;
     
     ConnectFourPanel() {
-        setSize(1000, 800);
+        setSize(1000, 700);
         setLayout(new BorderLayout());
         
         game = new Connect4();
@@ -38,29 +42,50 @@ class ConnectFourPanel extends JPanel{
         top = createTopPanel();
         center = createCenterPanel();
         bottom = createBottomPanel();
+        gameOver = false;
         
         add(top, BorderLayout.NORTH);
         add(center, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
         this.addKeyListener(listener);
         this.setFocusable(true);
+        repaint();
     }
 
     private JPanel createTopPanel() {
         JPanel topPanel = new JPanel();
-        topPanel.setPreferredSize(new Dimension(1000, 100));
+        topPanel.setPreferredSize(new Dimension(700, 120));
+        this.chip = new ChipComponent(1, 0, 0, 100);
+        topPanel.setLayout(null);
+        this.chip.setBounds(100*columnIndex, 0, chip.size, chip.size);
+        topPanel.add(this.chip);
+        topPanel.repaint();
         return topPanel;
     }
 
     private JPanel createCenterPanel() {
         JPanel centerPanel = new JPanel();
-        centerPanel.setPreferredSize(new Dimension(1000, 700));
+        centerPanel.setPreferredSize(new Dimension(700, 700));
+        this.grid = new GridComponent(0, 0, 0, 700);
+        centerPanel.setLayout(null);
+        this.grid.setBounds(0, 0, grid.size, grid.size - 100);
+        centerPanel.add(this.grid);
+        for (int i = 0; i < game.board.length; i++) {
+            for (int j = 0; j < game.board[0].length; j++) {
+                ChipComponent chipper = 
+                        new ChipComponent(game.board[i][j], i*100, j*100, 100);
+                chipper.setBounds(100*i, 100*j, chipper.size, chipper.size);
+                centerPanel.add(chipper);
+                centerPanel.repaint();
+            }
+        }
+        centerPanel.repaint();
         return centerPanel;
     }
 
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setPreferredSize(new Dimension(1000, 40));
+        bottomPanel.setPreferredSize(new Dimension(700, 40));
         
         JButton buttonReset = createResetButton();
         JButton buttonExit = createExitButton();
@@ -68,6 +93,7 @@ class ConnectFourPanel extends JPanel{
         bottomPanel.add(buttonReset);
         bottomPanel.add(buttonExit);
         
+        bottomPanel.setFocusable(false);
         return bottomPanel;
     }
 
@@ -87,6 +113,7 @@ class ConnectFourPanel extends JPanel{
         @Override
         public void actionPerformed(ActionEvent e) {
             game.resetBoard();
+            gameOver = false;
         }   
     }
     
@@ -104,15 +131,23 @@ class ConnectFourPanel extends JPanel{
             key = key.replace("pressed ", "");
             if (key.equals("LEFT")) {
                 columnIndex--;
+                if (columnIndex < 0) {
+                    columnIndex = 6;
+                }
                 center.setBackground(Color.RED);
                 while (game.chipsInX[columnIndex] > 5) {
                     columnIndex--;
+                    if (columnIndex < 0) {
+                        columnIndex = 6;
+                    }
                 }
             } else if (key.equals("RIGHT")) {
                 columnIndex++;
+                columnIndex = columnIndex % game.board[0].length;
                 center.setBackground(Color.BLUE);
                 while (game.chipsInX[columnIndex] > 5) {
                     columnIndex++;
+                    columnIndex = columnIndex % (game.board[0].length - 1);
                 }
             } else if (key.equals("SPACE")) {
                 if (game.isRedTurn == true) {
@@ -132,16 +167,25 @@ class ConnectFourPanel extends JPanel{
                     columnIndex = columnIndex % game.chipsInX.length;
                 }
             } else {
-                gameOver();    
+                gameOverM();    
             }
+            int chipPos = columnIndex;
+            chip.setBounds(100*chipPos, 0, chip.size, chip.size);
+            if (game.isRedTurn == true) {
+                currentTurn = 1;
+            } else {
+                currentTurn = 2;
+            }
+            chip.color = currentTurn;
+            repaint();
         }
         @Override
         public void keyTyped(KeyEvent e) {}
         @Override
         public void keyReleased(KeyEvent e) {}
 
-        private void gameOver() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        private void gameOverM() {
+            gameOver = true;
         }
     }
 }

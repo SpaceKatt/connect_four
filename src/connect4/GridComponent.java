@@ -1,0 +1,61 @@
+/*
+ * Copyright (C) 2015 Thomas
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package connect4;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Thomas
+ */
+public class GridComponent extends JPanel {
+    int color;
+    int x;
+    int y;
+    int size;
+    private Rectangle grid;
+    
+    public GridComponent(int color, int x, int y, int size) {
+        this.color = color;
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.grid = new Rectangle(x, y, size, size-100);
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setPreferredSize(new Dimension(100,100));
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.YELLOW);
+        g2.fill(grid);
+        g2.draw(grid);
+        
+        
+    }
+    
+    public void moveCircle(int dx) {
+        x += size;
+        repaint();
+    }
+}
